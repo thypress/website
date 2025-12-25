@@ -2,13 +2,51 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="color-scheme" content="light dark" />
-  <link rel="icon" type="image/x-icon" href="./icon.svg">
-  <title>THYPRESS — Own your publishing</title>
+
+  <title>THYPRESS — Zero-config docs &amp; static sites from Markdown</title>
   <meta name="description" content="THYPRESS turns a folder of Markdown notes into a production website — instantly. Serve it live or build static output. Zero-config." />
 
-  <script defer src="https://cloud.umami.is/script.js" data-website-id="2aa9b919-b321-40b2-ad07-734c8ac56774"></script>
+  <link rel="icon" type="image/x-icon" href="./icon.svg" />
+  <link rel="canonical" href="https://thypress.org/" />
+
+  <!-- Social previews -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="THYPRESS" />
+  <meta property="og:title" content="THYPRESS — Zero-config docs &amp; static sites from Markdown" />
+  <meta property="og:description" content="Turn a folder of Markdown into a fast, production website. Serve live or build static output. Zero-config." />
+  <meta property="og:url" content="https://thypress.org/" />
+  <meta property="og:image" content="https://thypress.org/og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="THYPRESS — Zero-config docs & static sites from Markdown" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="THYPRESS — Zero-config docs &amp; static sites from Markdown" />
+  <meta name="twitter:description" content="Turn a folder of Markdown into a fast, production website. Serve live or build static output. Zero-config." />
+  <meta name="twitter:image" content="https://thypress.org/og.png" />
+
+  <!-- Browser UI color -->
+  <meta name="theme-color" content="#FFFFF8" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#200000" media="(prefers-color-scheme: dark)">
+
+  <!-- Structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "THYPRESS",
+    "description": "THYPRESS turns a folder of Markdown notes into a production website — instantly. Serve it live or build static output. Zero-config.",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Windows, macOS, Linux",
+    "url": "https://thypress.org/",
+    "downloadUrl": "https://github.com/thypress/binder/releases",
+    "codeRepository": "https://github.com/thypress/binder",
+    "license": "https://www.mozilla.org/MPL/2.0/"
+  }
+  </script>
+
   <!-- JS enhancement only: apply persisted theme early (baseline still follows system if JS is off) -->
   <script>
     (function () {
@@ -20,700 +58,43 @@
   </script>
 
   <style>
-    :root {
-      /* exactly two colors: foreground + background (alpha variations only) */
-      --bg: 255, 255, 255;
-      --fg: 0, 0, 0;
-
-      --serif: ui-serif, "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, "Times New Roman", Times, serif;
-      --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-
-      /* type scale (rem-based) */
-      --fs-12: 0.75rem;     /* 12px */
-      --fs-13: 0.8125rem;   /* 13px */
-      --fs-14: 0.875rem;    /* 14px */
-      --fs-15: 0.9375rem;   /* 15px */
-      --fs-16: 1rem;        /* 16px */
-      --fs-18: 1.125rem;    /* 18px */
-      --fs-22: 1.375rem;    /* 22px */
-
-      /* radii */
-      --radius: 1rem;       /* 16px */
-      --radius-sm: 0.75rem; /* 12px */
-
-      /* layout */
-      --pad: clamp(1.125rem, 2.2vw, 1.75rem);  /* 18px -> 28px */
-      --gap: clamp(0.875rem, 2.2vw, 1.5rem);   /* 14px -> 24px */
-      --max: 87.5rem; /* 1400px */
-
-      /* alpha knobs (single source of truth) */
-      --a-border: 0.16;
-      --a-border-strong: 0.26;
-      --a-muted: 0.70;
-      --a-muted-2: 0.56;
-      --a-glass: 0.72;
-
-      --a-surface-card: 0.70;
-      --a-surface-panel: 0.62;
-      --a-surface-strip: 0.60;
-      --a-surface-chip: 0.55;
-      --a-surface-code: 0.70;
-
-      /* derived tokens (declare once; resolve at use-time) */
-      --border: rgba(var(--fg), var(--a-border));
-      --border-strong: rgba(var(--fg), var(--a-border-strong));
-      --muted: rgba(var(--fg), var(--a-muted));
-      --muted-2: rgba(var(--fg), var(--a-muted-2));
-      --glass: rgba(var(--bg), var(--a-glass));
-
-      --surface-card: rgba(var(--bg), var(--a-surface-card));
-      --surface-panel: rgba(var(--bg), var(--a-surface-panel));
-      --surface-strip: rgba(var(--bg), var(--a-surface-strip));
-      --surface-chip: rgba(var(--bg), var(--a-surface-chip));
-      --surface-code: rgba(var(--bg), var(--a-surface-code));
-    }
-
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --bg: 0, 0, 0;
-        --fg: 255, 255, 255;
-
-        --a-glass: 0.62;
-        --a-muted: 0.74;
-        --a-muted-2: 0.60;
-      }
-    }
-
-    /* Manual theme override (JS enhancement) */
-    html[data-theme="light"] {
-      color-scheme: light;
-      --bg: 255, 255, 248; /* charm exception */
-      --fg: 0, 0, 0;
-
-      --a-glass: 0.72;
-      --a-muted: 0.70;
-      --a-muted-2: 0.56;
-    }
-
-    html[data-theme="dark"] {
-      color-scheme: dark;
-      --bg: 32, 0, 0; /* charm exception */
-      --fg: 255, 255, 255;
-
-      --a-glass: 0.62;
-      --a-muted: 0.74;
-      --a-muted-2: 0.60;
-    }
-
-    *, *::before, *::after { box-sizing: border-box; }
-
-    html, body {
-      height: 100%;
-      background: rgb(var(--bg));
-      color: rgb(var(--fg));
-    }
-
-    body {
-      margin: 0;
-      font-family: var(--serif);
-      letter-spacing: -0.01em;
-      text-rendering: geometricPrecision;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-
-    b { font-weight: 600; }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-    a:hover { text-decoration: underline; text-underline-offset: 0.2em; }
-
-    ::selection {
-      background: rgb(var(--fg));
-      color: rgb(var(--bg));
-    }
-
-    .skip {
-      position: absolute;
-      left: -999px;
-      top: 0;
-      padding: 0.625rem 0.875rem; /* 10px 14px */
-      background: rgb(var(--bg));
-      color: rgb(var(--fg));
-      border: 1px solid var(--border-strong);
-      border-radius: 0.75rem;
-      font-family: var(--sans);
-      font-size: var(--fs-14);
-      font-weight: 600;
-      text-transform: none;
-      letter-spacing: 0;
-      z-index: 9999;
-    }
-    .skip:focus { left: 0.75rem; top: 0.75rem; }
-
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      background: var(--glass);
-    }
-
-    @supports ((backdrop-filter: blur(12px)) or (-webkit-backdrop-filter: blur(12px))) {
-      .topbar {
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-      }
-    }
-
-    .topbar-inner {
-      max-width: var(--max);
-      margin: 0 auto;
-      padding: 0.875rem var(--pad); /* 14px */
-      display: grid;
-      grid-template-columns: 1fr auto 1fr;
-      align-items: center;
-      gap: 0.625rem;
-    }
-
-    .brand {
-      grid-column: 2;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.625rem;
-      user-select: none;
-    }
-
-    .mark {
-      width: 2.125rem;  /* 34px */
-      height: 2.125rem; /* 34px */
-      display: block;
-    }
-
-    .brand-name {
-      display: none; /* icon-only navbar per spec */
-      font-family: var(--serif);
-      font-weight: 600;
-      font-size: var(--fs-16);
-      letter-spacing: 0.02em;
-      text-transform: uppercase;
-    }
-
-    .top-actions {
-      grid-column: 3;
-      justify-self: end;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .theme-toggle {
-      position: relative;
-      isolation: isolate;
-      overflow: visible;
-      appearance: none;
-      -webkit-appearance: none;
-      border: 2px solid var(--border);
-      background: var(--surface-chip);
-      color: inherit;
-      border-radius: 999px;
-      width: 2.375rem;  /* 38px */
-      height: 2.375rem; /* 38px */
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      padding: 0;
-    }
-
-    .theme-toggle:hover { border-color: var(--border-strong); }
-
-    .theme-toggle:focus-visible {
-      outline: 2px solid rgba(var(--fg), 0.42);
-      outline-offset: 2px;
-    }
-
-    /* Ensure any icon SVG inside the toggle is layout-stable */
-    .theme-toggle svg { display: block; overflow: visible; position: relative; z-index: 1; }
-
-    /* Bulb "on" layers are shown only in effective light theme */
-    .theme-toggle .on { opacity: 0; transition: opacity .16s ease; }
-
-    @media (prefers-color-scheme: light) {
-      html:not([data-theme="dark"]) .theme-toggle .on { opacity: 1; }
-    }
-    @media (prefers-color-scheme: dark) {
-      html:not([data-theme="light"]) .theme-toggle .on { opacity: 0; }
-    }
-    html[data-theme="light"] .theme-toggle .on { opacity: 1; }
-    html[data-theme="dark"] .theme-toggle .on { opacity: 0; }
-    /* Halo — HTML-side (reliable everywhere): multi-layer BOX-SHADOW bloom.
-       Only shows in effective LIGHT theme. */
-    .theme-toggle::before {
-      content: "";
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      width: 2px;
-      height: 2px;
-      border-radius: 999px;
-      transform: translate(-50%, -50%);
-      background: rgba(255, 200, 0, 1);
-      pointer-events: none;
-      z-index: 0;
-      opacity: 0;
-      box-shadow:
-        0 0 26px 12px rgba(255, 235, 160, 0.80),
-        0 0 110px 54px rgba(255, 215, 120, 0.60),
-        0 0 240px 120px rgba(255, 205, 60, 0.40);
-    }
-
-    @media (prefers-color-scheme: light) {
-      html:not([data-theme="dark"]) .theme-toggle::before { opacity: 1; }
-    }
-    html[data-theme="light"] .theme-toggle::before { opacity: 1; }
-
-
-    .page {
-      max-width: var(--max);
-      margin: 0 auto;
-      padding: 1.625rem var(--pad) 2.75rem; /* 26px ... 44px */
-    }
-
-    .grid2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--gap);
-      align-items: start;
-    }
-
-    .card {
-      border-radius: var(--radius);
-      padding: var(--pad);
-      /*background: var(--surface-card);*/
-    }
-
-    .eyebrow {
-      font-family: var(--sans);
-      font-size: var(--fs-12);
-      font-weight: 600;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: rgba(var(--fg), 0.72);
-      margin: 0 0 0.75rem; /* 12px */
-    }
-
-    h1 {
-      margin: 0 0 0.75rem; /* 12px */
-      font-size: clamp(2.375rem, 4.2vw, 3.5rem); /* 38px -> 56px */
-      line-height: 1.02;
-      font-weight: 650;
-    }
-
-    .lead {
-      margin: 0 0 1.125rem; /* 18px */
-      font-size: clamp(1rem, 1.55vw, 1.125rem); /* 16px -> 18px */
-      line-height: 1.55;
-      color: var(--muted);
-      max-width: 56ch;
-    }
-
-    .em {
-      font-style: italic;
-      text-decoration: underline;
-      text-underline-offset: 0.18em;
-      text-decoration-thickness: 1px;
-    }
-
-    .cta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.625rem; /* 10px */
-      align-items: center;
-      margin-top: 1rem; /* 16px */
-    }
-
-    /* optional: keep the download arrow aligned */
-    .btn-ico{
-      width: 1rem;
-      height: 1rem;
-      display: block;
-    }
-
-    /* platform chips row */
-    .platforms{
-      display:flex;
-      flex-wrap:wrap;
-      gap:0.5rem;
-      align-items:center;
-      margin-top: 1rem; /* 16px */
-    }
-
-    .platform{
-      display:inline-flex;
-      align-items:center;
-      gap:0.5rem;
-      padding:0.375rem 0.625rem; /* 6px 10px */
-      /*border:2px solid var(--border);
-      border-radius:999px;
-      background:var(--surface-chip);*/
-      font-family:var(--sans);
-      font-size:var(--fs-12);
-      font-weight:600;
-      letter-spacing:0.12em;
-      /*text-transform:uppercase;*/
-      user-select:none;
-      line-height: 1;
-    }
-
-    /* force ALL those huge original SVGs to render at a sane size */
-    .platform-ico{
-      width: 1rem;   /* 16px */
-      height: 1rem;  /* 16px */
-      display:block;
-      flex: 0 0 auto;
-    }
-
-
-
-
-    .btn {
-      font-family: var(--sans);
-      font-size: var(--fs-14);
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      border-radius: 999px;
-      border: 2px solid var(--border-strong);
-      padding: 0.625rem 0.875rem; /* 10px 14px */
-      display: inline-flex;
-      align-items: center;
-      gap: 0.625rem; /* 10px */
-      background: transparent;
-      color: inherit;
-      text-decoration: none;
-    }
-
-    .btn.primary {
-      background: rgb(var(--fg));
-      color: rgb(var(--bg));
-      border-color: rgb(var(--fg));
-      text-decoration: none;
-    }
-
-    .btn.primary:hover,
-    .btn.primary:focus-visible {
-      outline: none;
-      text-decoration: none;
-      background: rgba(var(--fg), 0.92);
-    }
-
-    .btn:hover { text-decoration: none; }
-
-    .meta {
-      margin: 1rem 0 0; /* 16px */
-      font-family: var(--sans);
-      font-size: var(--fs-13);
-      color: var(--muted-2);
-    }
-
-    .meta code {
-      font-family: var(--mono);
-      font-size: var(--fs-12);
-      padding: 0.0625rem 0.375rem; /* 1px 6px */
-      border-radius: 999px;
-      /*background: rgba(var(--bg), 0.75);*/
-    }
-
-    /* Tabs (no-JS core): radios drive panel visibility via CSS */
-    .tabs {
-      display: grid;
-      gap: 0.75rem; /* 12px */
-    }
-
-    .tablist {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem; /* 8px */
-      align-items: center;
-    }
-
-    .tabs input[type="radio"] {
-      position: absolute;
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .tab {
-      font-family: var(--sans);
-      font-size: var(--fs-12);
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      border: 2px solid var(--border);
-      border-radius: 999px;
-      padding: 0.5rem 0.75rem; /* 8px 12px */
-      cursor: pointer;
-      user-select: none;
-      /*background: var(--surface-chip);*/
-    }
-
-    /* Focus ring routed to the visible label */
-    #t-drag:focus-visible ~ .tablist label[for="t-drag"],
-    #t-cli:focus-visible  ~ .tablist label[for="t-cli"],
-    #t-dev:focus-visible  ~ .tablist label[for="t-dev"] {
-      outline: 2px solid rgba(var(--fg), 0.42);
-      outline-offset: 2px;
-    }
-
-    /* Active tab styling routed by checked radio */
-    #t-drag:checked ~ .tablist label[for="t-drag"],
-    #t-cli:checked  ~ .tablist label[for="t-cli"],
-    #t-dev:checked  ~ .tablist label[for="t-dev"] {
-      background: rgb(var(--fg));
-      color: rgb(var(--bg));
-      border-color: rgb(var(--fg));
-    }
-
-    .panel {
-      display: none; /* all hidden by default; CSS reveals the selected one */
-      border-radius: var(--radius);
-      padding: 0.875rem; /* 14px */
-      /*background: var(--surface-panel);*/
-    }
-
-    #t-drag:checked ~ #p-drag,
-    #t-cli:checked  ~ #p-cli,
-    #t-dev:checked  ~ #p-dev {
-      display: block;
-    }
-
-    .panel h2 {
-      margin: 0 0 0.625rem; /* 10px */
-      font-size: var(--fs-16);
-      font-weight: 650;
-      letter-spacing: -0.01em;
-    }
-
-    .steps {
-      margin: 0;
-      padding: 0 0 0 1.125rem; /* 18px */
-      color: var(--muted);
-      font-size: var(--fs-15);
-      line-height: 1.55;
-    }
-
-    .steps li { margin: 0.375rem 0; /* 6px */ }
-
-    .code {
-      margin-top: 0.75rem; /* 12px */
-      padding: 0.75rem; /* 12px */
-      border-radius: var(--radius-sm);
-      border: 2px solid var(--border);
-      /*background: var(--surface-code);*/
-      font-family: var(--mono);
-      font-size: 0.78125rem; /* 12.5px */
-      line-height: 1.55;
-      overflow-x: auto;
-      white-space: pre;
-    }
-
-    /* Feature strip */
-    .strip {
-      /*margin: clamp(1rem, 2.2vw, 1.375rem) 0;*/
-      margin: clamp(3rem, 6.6vw, 4.125rem) 0; /* 48px -> 66px */
-      border-radius: var(--radius);
-      padding: 0.875rem var(--pad); /* 14px */
-      /*background: var(--surface-strip);*/
-    }
-
-    .strip-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1.5rem; /* 24px */
-    }
-
-    .pill {
-      border-radius: var(--radius-sm);
-      /*padding: 0.75rem;*/
-      /*background: var(--surface-strip);*/
-      min-height: 4.625rem; /* 74px */
-    }
-
-    .pill b {
-      display: block;
-      font-family: var(--sans);
-      font-size: var(--fs-12);
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      margin-bottom: 0.375rem; /* 6px */
-    }
-
-    .pill p {
-      margin: 0;
-      color: var(--muted);
-      font-size: var(--fs-14);
-      line-height: 1.45;
-    }
-
-    /* Manifesto */
-    .section-title {
-      margin: 0 0 0.625rem; /* 10px */
-      font-size: var(--fs-22);
-      font-weight: 650;
-      letter-spacing: -0.01em;
-    }
-
-    .copy {
-      margin: 0;
-      color: var(--muted);
-      font-size: var(--fs-16);
-      line-height: 1.6;
-      max-width: 62ch;
-    }
-
-    .rules {
-      margin: 0.875rem 0 0; /* 14px */
-      padding: 0;
-      list-style: none;
-      display: grid;
-      gap: 0.625rem; /* 10px */
-    }
-
-    .rule {
-      border-radius: var(--radius-sm);
-      padding: 0.75rem; /* 12px */
-      /*background: var(--surface-panel);*/
-    }
-
-    .rule .k {
-      font-family: var(--sans);
-      font-size: var(--fs-12);
-      font-weight: 600;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      display: block;
-      margin-bottom: 0.375rem; /* 6px */
-      color: rgba(var(--fg), 0.80);
-    }
-
-    .rule .v {
-      margin: 0;
-      color: var(--muted);
-      line-height: 1.5;
-    }
-
-    .involve {
-      display: grid;
-      gap: 0.75rem; /* 12px */
-    }
-
-    .links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem; /* 16px */
-      margin-top: 0.75rem; /* 12px */
-    }
-
-    .link {
-      font-family: var(--sans);
-      font-size: var(--fs-13);
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      padding: 0.5rem 0.75rem; /* 8px 12px */
-      /*background: var(--surface-chip);*/
-    }
-
-    .small {
-      font-family: var(--sans);
-      font-size: var(--fs-13);
-      color: var(--muted-2);
-      line-height: 1.5;
-    }
-
-    footer {
-      margin-top: 1.75rem; /* 28px */
-      padding-top: 1.125rem; /* 18px */
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 0.625rem; /* 10px */
-      font-family: var(--sans);
-      color: var(--muted-2);
-      font-size: var(--fs-13);
-    }
-
-    footer a {
-      font-family: var(--sans);
-      font-size: var(--fs-12);
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      text-decoration: none;
-      color: inherit;
-    }
-    footer a:hover { text-decoration: underline; text-underline-offset: 0.2em; }
-
-    /* Responsive */
-    @media (max-width: 56.25rem) { /* 900px */
-      .grid2 { grid-template-columns: 1fr; }
-      .strip-grid { grid-template-columns: 1fr 1fr; }
-    }
-
-    @media (max-width: 32.5rem) { /* 520px */
-      .strip-grid { grid-template-columns: 1fr; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      * { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
-    }
+:root,html[data-theme=light]{--fg:0,0,0;--a-glass:.72;--a-muted:.70;--a-muted-2:.56}.eyebrow,.skip{font-family:var(--sans);font-weight:600}.eyebrow,.skip,b{font-weight:600}.page,.topbar-inner{max-width:var(--max);margin:0 auto}.tabs input[type=radio],.theme-toggle::before{position:absolute;pointer-events:none;opacity:0}.brand,.platform,.tab{user-select:none}.btn,.eyebrow,.pill b,.tab{text-transform:uppercase}:root{--bg:255,255,255;--serif:ui-serif,"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,"Times New Roman",Times,serif;--sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji";--mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;--fs-12:.75rem;--fs-13:.8125rem;--fs-14:.875rem;--fs-15:.9375rem;--fs-16:1rem;--fs-18:1.125rem;--fs-22:1.375rem;--radius:1rem;--radius-sm:.75rem;--pad:clamp(1.125rem,2.2vw,1.75rem);--gap:clamp(.875rem,2.2vw,1.5rem);--max:87.5rem;--a-border:.16;--a-border-strong:.26;--a-surface-chip:.55;--border:rgba(var(--fg),var(--a-border));--border-strong:rgba(var(--fg),var(--a-border-strong));--muted:rgba(var(--fg),var(--a-muted));--muted-2:rgba(var(--fg),var(--a-muted-2));--glass:rgba(var(--bg),var(--a-glass));--surface-chip:rgba(var(--bg),var(--a-surface-chip))}@media (prefers-color-scheme:dark){:root{--bg:0,0,0;--fg:255,255,255;--a-glass:.62;--a-muted:.74;--a-muted-2:.60}}html[data-theme=light]{color-scheme:light;--bg:255,255,248}html[data-theme=dark]{color-scheme:dark;--bg:32,0,0;--fg:255,255,255;--a-glass:.62;--a-muted:.74;--a-muted-2:.60}*,::after,::before{box-sizing:border-box}body,html{height:100%;background:rgb(var(--bg));color:rgb(var(--fg))}body{margin:0;font-family:var(--serif);letter-spacing:-.01em;text-rendering:geometricPrecision;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}a{color:inherit;text-decoration:none}a:hover,footer a:hover{text-decoration:underline;text-underline-offset:.2em}::selection{background:rgb(var(--fg));color:rgb(var(--bg))}.skip{position:absolute;left:-999px;top:0;padding:.625rem .875rem;background:rgb(var(--bg));color:rgb(var(--fg));border:1px solid var(--border-strong);border-radius:.75rem;font-size:var(--fs-14);letter-spacing:0;z-index:9999}.skip:focus{left:.75rem;top:.75rem}.topbar{position:sticky;top:0;z-index:50;background:var(--glass)}.theme-toggle,.theme-toggle svg{overflow:visible;position:relative}@supports ((backdrop-filter:blur(12px)) or (-webkit-backdrop-filter:blur(12px))){.topbar{backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}}.topbar-inner{padding:.875rem var(--pad);display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:.625rem}.brand{grid-column:2;display:inline-flex;align-items:center;justify-content:center;gap:.625rem}.mark{width:2.125rem;height:2.125rem;display:block}.brand-name{display:none}.top-actions{grid-column:3;justify-self:end;display:inline-flex;align-items:center;gap:.5rem}.theme-toggle{isolation:isolate;appearance:none;-webkit-appearance:none;border:2px solid var(--border);background:var(--surface-chip);color:inherit;border-radius:999px;width:2.375rem;height:2.375rem;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;padding:0}.btn-ico,.platform-ico{width:1rem;height:1rem}.theme-toggle:hover{border-color:var(--border-strong)}.theme-toggle:focus-visible{outline:2px solid rgba(var(--fg),.42);outline-offset:2px}.theme-toggle svg{display:block;z-index:1}.theme-toggle .on{opacity:0;transition:opacity .16s}html[data-theme=light] .theme-toggle .on,html[data-theme=light] .theme-toggle::before{opacity:1}html[data-theme=dark] .theme-toggle .on{opacity:0}.theme-toggle::before{content:"";left:50%;top:50%;width:2px;height:2px;border-radius:999px;transform:translate(-50%,-50%);background:#ffc800;z-index:0;box-shadow:0 0 26px 12px rgba(255,235,160,.8),0 0 110px 54px rgba(255,215,120,.6),0 0 240px 120px rgba(255,205,60,.4)}#t-cli:checked~.tablist label[for=t-cli],#t-dev:checked~.tablist label[for=t-dev],#t-drag:checked~.tablist label[for=t-drag],.btn.primary{background:rgb(var(--fg));color:rgb(var(--bg));border-color:rgb(var(--fg))}@media (prefers-color-scheme:light){html:not([data-theme=dark]) .theme-toggle .on,html:not([data-theme=dark]) .theme-toggle::before{opacity:1}}.page{padding:1.625rem var(--pad) 2.75rem}.eyebrow,h1{margin:0 0 .75rem}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap);align-items:start}.card,.grid2>*,.panel{min-width:0}.card{border-radius:var(--radius);padding:var(--pad)}.eyebrow{font-size:var(--fs-12);letter-spacing:.16em;color:rgba(var(--fg),.72)}.btn,.platform,.tab{font-family:var(--sans);font-weight:600;letter-spacing:.12em}h1{font-size:clamp(2.375rem,4.2vw,3.5rem);line-height:1.02;font-weight:650}.lead{margin:0 0 1.125rem;font-size:clamp(1rem,1.55vw,1.125rem);line-height:1.55;color:var(--muted);max-width:60ch}.cta,.platforms{margin-top:1rem}.btn,footer a{color:inherit}.em{font-style:italic;text-decoration:underline;text-underline-offset:.18em;text-decoration-thickness:1px}.btn,.btn.primary,.btn:hover,footer a{text-decoration:none}.cta{display:flex;flex-wrap:wrap;gap:.625rem;align-items:center}.btn-ico{display:block}.platforms{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}.platform{display:inline-flex;align-items:center;gap:.5rem;padding:.375rem .625rem;font-size:var(--fs-12);line-height:1}.code,.steps{line-height:1.55}.platform-ico{display:block;flex:0 0 auto}.btn{font-size:var(--fs-14);border-radius:999px;border:2px solid var(--border-strong);padding:.625rem .875rem;display:inline-flex;align-items:center;gap:.625rem;background:0 0}.btn.primary:focus-visible,.btn.primary:hover{outline:0;text-decoration:none;background:rgba(var(--fg),.92)}.meta{margin:1rem 0 0;font-family:var(--sans);font-size:var(--fs-13);color:var(--muted-2)}.meta code,.tab{font-size:var(--fs-12)}.copy,.pill p,.steps{color:var(--muted)}.meta code{font-family:var(--mono);padding:.0625rem .375rem;border-radius:999px}.involve,.tabs{display:grid;gap:.75rem}.tablist{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}.tab{border:2px solid var(--border);border-radius:999px;padding:.5rem .75rem;cursor:pointer}.panel h2,.section-title{font-weight:650;letter-spacing:-.01em}#t-cli:focus-visible~.tablist label[for=t-cli],#t-dev:focus-visible~.tablist label[for=t-dev],#t-drag:focus-visible~.tablist label[for=t-drag]{outline:2px solid rgba(var(--fg),.42);outline-offset:2px}.panel{border-radius:var(--radius);padding:.875rem}#t-cli:checked~#p-dev,#t-cli:checked~#p-drag,#t-dev:checked~#p-cli,#t-dev:checked~#p-drag,#t-drag:checked~#p-cli,#t-drag:checked~#p-dev{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;clip-path:inset(50%)!important;white-space:nowrap!important;border:0!important}.panel h2{margin:0 0 .625rem;font-size:var(--fs-16)}.steps{margin:0;padding:0 0 0 1.125rem;font-size:var(--fs-15)}.steps li{margin:.375rem 0}.pill b,.rule .k{letter-spacing:.14em;display:block;margin-bottom:.375rem}.code{margin:.75rem 0 0;padding:.75rem;border-radius:var(--radius-sm);border:2px solid var(--border);font-family:var(--mono);font-size:.78125rem;overflow-x:auto;white-space:pre;max-width:100%;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}.code>code{font:inherit}.pill b,.rule .k,footer a{font-size:var(--fs-12)}.strip{margin:clamp(3rem,6.6vw,3rem) 0;border-radius:var(--radius);padding:.875rem var(--pad)}.pill,.rule{border-radius:var(--radius-sm)}.strip-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin-top:2rem}.pill{min-height:4.625rem}.pill b{font-family:var(--sans)}.pill p{margin:0;font-size:var(--fs-14);line-height:1.45}.section-title{margin:0 0 .625rem;font-size:var(--fs-22)}.link,footer a{font-weight:600;letter-spacing:.12em;text-transform:uppercase}.copy{margin:0;font-size:var(--fs-16);line-height:1.6;max-width:62ch}.small,footer{color:var(--muted-2)}.link,.small,footer{font-size:var(--fs-13);font-family:var(--sans)}.rule .v,.small{line-height:1.5}.rules{margin:.875rem 0 0;padding:0;list-style:none;display:grid;gap:.625rem}.rule{padding:.75rem}.rule .k{font-family:var(--sans);font-weight:600;text-transform:uppercase;color:rgba(var(--fg),.8)}.rule .v{margin:0;color:var(--muted)}.links{display:flex;flex-wrap:wrap;gap:1rem;margin-top:.75rem}.link{padding:.5rem .75rem}footer{margin-top:1.75rem;padding-top:1.125rem;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.625rem}footer a{font-family:var(--sans)}@media (max-width:56.25rem){.grid2{grid-template-columns:1fr}.strip-grid{grid-template-columns:1fr 1fr}}@media (max-width:32.5rem){.strip-grid{grid-template-columns:1fr}}@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
   </style>
 
   <!-- No-JS core: hide the theme toggle (system theme still applies) -->
   <noscript>
-    <style>
-      .theme-toggle { display: none !important; }
-    </style>
+    <style>.theme-toggle{display:none!important}</style>
   </noscript>
 </head>
 
 <body>
   <a class="skip" href="#main">Skip to content</a>
 
-  <header class="topbar" aria-label="Top navigation">
+  <header class="topbar">
     <div class="topbar-inner">
       <div aria-hidden="true"></div>
 
-      <a class="brand" href="#" aria-label="THYPRESS">
+      <a class="brand" href="/" aria-label="THYPRESS">
         <svg class="mark" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <path d="M22 10V54" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
-          <path d="M36 10V54" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
-          <path d="M22 10H35.5C44.2 10 48 13.9 48 21.2C48 28.6 44.2 32.5 35.5 32.5H22" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M22 10V54" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+          <path d="M36 10V54" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+          <path d="M22 10H35.5C44.2 10 48 13.9 48 21.2C48 28.6 44.2 32.5 35.5 32.5H22" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
         <span class="brand-name">THYPRESS</span>
       </a>
 
       <div class="top-actions">
         <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle theme" aria-pressed="false">
-          <!-- Upside-down bulb: OFF = outline; ON = filled bulb + rays (with a gap so they do not touch) -->
+          <!-- Upside-down bulb: OFF = outline; ON = filled bulb + rays -->
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <g transform="rotate(180 12 12)">
-              <!-- cap lines -->
-              <path d="M10 19h4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
-              <path d="M9 22h6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+              <path d="M10 19h4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" vector-effect="non-scaling-stroke" />
+              <path d="M9 22h6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" vector-effect="non-scaling-stroke" />
 
-              <!-- bulb outline (OFF) -->
-              <path class="glow" d="M12 2c-3.314 0-6 2.686-6 6 0 2.03 1.012 3.816 2.56 4.89.555.385.94 1.006 1.07 1.73L10 16h4l.37-1.38c.13-.724.515-1.345 1.07-1.73C16.988 11.816 18 10.03 18 8c0-3.314-2.686-6-6-6Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>
+              <path class="glow" d="M12 2c-3.314 0-6 2.686-6 6 0 2.03 1.012 3.816 2.56 4.89.555.385.94 1.006 1.07 1.73L10 16h4l.37-1.38c.13-.724.515-1.345 1.07-1.73C16.988 11.816 18 10.03 18 8c0-3.314-2.686-6-6-6Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" vector-effect="non-scaling-stroke" />
 
-              <!-- bulb fill (ON) -->
-              <path class="on" d="M12 2c-3.314 0-6 2.686-6 6 0 2.03 1.012 3.816 2.56 4.89.555.385.94 1.006 1.07 1.73L10 16h4l.37-1.38c.13-.724.515-1.345 1.07-1.73C16.988 11.816 18 10.03 18 8c0-3.314-2.686-6-6-6Z" fill="currentColor" opacity="0.18"/>
+              <path class="on" d="M12 2c-3.314 0-6 2.686-6 6 0 2.03 1.012 3.816 2.56 4.89.555.385.94 1.006 1.07 1.73L10 16h4l.37-1.38c.13-.724.515-1.345 1.07-1.73C16.988 11.816 18 10.03 18 8c0-3.314-2.686-6-6-6Z" fill="currentColor" opacity="0.18" />
 
-              <!-- rays (ON): radial, with a visible gap from the bulb -->
               <g class="on" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" vector-effect="non-scaling-stroke">
                 <line x1="6.06" y1="2.06" x2="5.21" y2="1.21" />
                 <line x1="17.94" y1="2.06" x2="18.79" y2="1.21" />
@@ -723,35 +104,30 @@
                 <line x1="20.40" y1="8.00" x2="21.60" y2="8.00" />
               </g>
             </g>
-</svg>
+          </svg>
         </button>
       </div>
     </div>
   </header>
 
   <main id="main" class="page">
-    <section class="grid2" aria-label="Hero">
+    <section class="grid2">
       <div>
         <p class="eyebrow">Own your publishing <span aria-hidden="true">·</span> free &amp; open source</p>
-        <h1>Text files → website,<br><span class="em">instantly</span>.</h1>
+        <h1>Text files → website,<br /><span class="em">instantly</span>.</h1>
+
         <p class="lead">
-          Turn <span class="em">any</span> folder of <b>text/markdown</b> files into a browsable site, just <b>drag & drop</b>.
-          Serve it live on a VPS or build static output for any CDN. <b>Zero config</b>. Batteries included.
+          Turn <span class="em">any</span> folder of <b>text/markdown</b> files into a browsable <b>docs</b> or <b>static site</b>, just <b>drag &amp; drop</b>.
+          A <b>zero-config</b> generator that follows your folder structure. Serve it live on a VPS or build static output for any CDN.
         </p>
 
-        <div class="cta" role="group" aria-label="Primary calls to action">
-          <a
-            class="btn primary"
-            href="https://github.com/thypress/binder/releases"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Download THYPRESS from GitHub Releases"
-          >
+        <div class="cta" aria-label="Primary calls to action">
+          <a class="btn primary" href="https://github.com/thypress/binder/releases" target="_blank" rel="noopener noreferrer">
             Download
             <svg class="btn-ico" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M12 3v10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-              <path d="M8 11l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M5 21h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <path d="M12 3v10" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+              <path d="M8 11l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M5 21h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
             </svg>
           </a>
 
@@ -759,112 +135,108 @@
         </div>
 
         <div class="platforms" aria-label="Supported platforms">
-          <span class="platform" aria-label="Windows" title="Windows">
+          <span class="platform">
             <svg class="platform-ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" aria-hidden="true">
-              <path fill="currentColor" d="m0 93.7l183.6-25.3v177.4H0zm0 324.6l183.6 25.3V268.4H0zm203.8 28L448 480V268.4H203.8zm0-380.6v180.1H448V32z"/>
+              <path fill="currentColor" d="m0 93.7l183.6-25.3v177.4H0zm0 324.6l183.6 25.3V268.4H0zm203.8 28L448 480V268.4H203.8zm0-380.6v180.1H448V32z" />
             </svg>
             Windows
           </span>
 
-          <span class="platform" aria-label="macOS" title="macOS">
+          <span class="platform">
             <svg class="platform-ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" aria-hidden="true">
-              <path fill="currentColor" d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8c-18.8-26.9-47.2-41.7-84.7-44.6c-35.5-2.8-74.3 20.7-88.5 20.7c-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2c25.2-.6 43-17.9 75.8-17.9c31.8 0 48.3 17.9 76.4 17.9c48.6-.7 90.4-82.5 102.6-119.3c-65.2-30.7-61.7-90-61.7-91.9m-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5c-24.1 1.4-52 16.4-67.9 34.9c-17.5 19.8-27.8 44.3-25.6 71.9c26.1 2 49.9-11.4 69.5-34.3"/>
+              <path fill="currentColor" d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8c-18.8-26.9-47.2-41.7-84.7-44.6c-35.5-2.8-74.3 20.7-88.5 20.7c-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2c25.2-.6 43-17.9 75.8-17.9c31.8 0 48.3 17.9 76.4 17.9c48.6-.7 90.4-82.5 102.6-119.3c-65.2-30.7-61.7-90-61.7-91.9m-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5c-24.1 1.4-52 16.4-67.9 34.9c-17.5 19.8-27.8 44.3-25.6 71.9c26.1 2 49.9-11.4 69.5-34.3" />
             </svg>
             macOS
           </span>
 
-          <span class="platform" aria-label="Linux" title="Linux">
+          <span class="platform">
             <svg class="platform-ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" aria-hidden="true">
-              <path fill="currentColor" d="M220.8 123.3c1 .5 1.8 1.7 3 1.7c1.1 0 2.8-.4 2.9-1.5c.2-1.4-1.9-2.3-3.2-2.9c-1.7-.7-3.9-1-5.5-.1c-.4.2-.8.7-.6 1.1c.3 1.3 2.3 1.1 3.4 1.7m-21.9 1.7c1.2 0 2-1.2 3-1.7c1.1-.6 3.1-.4 3.5-1.6c.2-.4-.2-.9-.6-1.1c-1.6-.9-3.8-.6-5.5.1c-1.3.6-3.4 1.5-3.2 2.9c.1 1 1.8 1.5 2.8 1.4M420 403.8c-3.6-4-5.3-11.6-7.2-19.7c-1.8-8.1-3.9-16.8-10.5-22.4c-1.3-1.1-2.6-2.1-4-2.9c-1.3-.8-2.7-1.5-4.1-2c9.2-27.3 5.6-54.5-3.7-79.1c-11.4-30.1-31.3-56.4-46.5-74.4c-17.1-21.5-33.7-41.9-33.4-72C311.1 85.4 315.7.1 234.8 0C132.4-.2 158 103.4 156.9 135.2c-1.7 23.4-6.4 41.8-22.5 64.7c-18.9 22.5-45.5 58.8-58.1 96.7c-6 17.9-8.8 36.1-6.2 53.3c-6.5 5.8-11.4 14.7-16.6 20.2c-4.2 4.3-10.3 5.9-17 8.3s-14 6-18.5 14.5c-2.1 3.9-2.8 8.1-2.8 12.4c0 3.9.6 7.9 1.2 11.8c1.2 8.1 2.5 15.7.8 20.8c-5.2 14.4-5.9 24.4-2.2 31.7c3.8 7.3 11.4 10.5 20.1 12.3c17.3 3.6 40.8 2.7 59.3 12.5c19.8 10.4 39.9 14.1 55.9 10.4c11.6-2.6 21.1-9.6 25.9-20.2c12.5-.1 26.3-5.4 48.3-6.6c14.9-1.2 33.6 5.3 55.1 4.1c.6 2.3 1.4 4.6 2.5 6.7v.1c8.3 16.7 23.8 24.3 40.3 23c16.6-1.3 34.1-11 48.3-27.9c13.6-16.4 36-23.2 50.9-32.2c7.4-4.5 13.4-10.1 13.9-18.3c.4-8.2-4.4-17.3-15.5-29.7"/>
+              <path fill="currentColor" d="M220.8 123.3c1 .5 1.8 1.7 3 1.7c1.1 0 2.8-.4 2.9-1.5c.2-1.4-1.9-2.3-3.2-2.9c-1.7-.7-3.9-1-5.5-.1c-.4.2-.8.7-.6 1.1c.3 1.3 2.3 1.1 3.4 1.7m-21.9 1.7c1.2 0 2-1.2 3-1.7c1.1-.6 3.1-.4 3.5-1.6c.2-.4-.2-.9-.6-1.1c-1.6-.9-3.8-.6-5.5.1c-1.3.6-3.4 1.5-3.2 2.9c.1 1 1.8 1.5 2.8 1.4M420 403.8c-3.6-4-5.3-11.6-7.2-19.7c-1.8-8.1-3.9-16.8-10.5-22.4c-1.3-1.1-2.6-2.1-4-2.9c-1.3-.8-2.7-1.5-4.1-2c9.2-27.3 5.6-54.5-3.7-79.1c-11.4-30.1-31.3-56.4-46.5-74.4c-17.1-21.5-33.7-41.9-33.4-72C311.1 85.4 315.7.1 234.8 0C132.4-.2 158 103.4 156.9 135.2c-1.7 23.4-6.4 41.8-22.5 64.7c-18.9 22.5-45.5 58.8-58.1 96.7c-6 17.9-8.8 36.1-6.2 53.3c-6.5 5.8-11.4 14.7-16.6 20.2c-4.2 4.3-10.3 5.9-17 8.3s-14 6-18.5 14.5c-2.1 3.9-2.8 8.1-2.8 12.4c0 3.9.6 7.9 1.2 11.8c1.2 8.1 2.5 15.7.8 20.8c-5.2 14.4-5.9 24.4-2.2 31.7c3.8 7.3 11.4 10.5 20.1 12.3c17.3 3.6 40.8 2.7 59.3 12.5c19.8 10.4 39.9 14.1 55.9 10.4c11.6-2.6 21.1-9.6 25.9-20.2c12.5-.1 26.3-5.4 48.3-6.6c14.9-1.2 33.6 5.3 55.1 4.1c.6 2.3 1.4 4.6 2.5 6.7v.1c8.3 16.7 23.8 24.3 40.3 23c16.6-1.3 34.1-11 48.3-27.9c13.6-16.4 36-23.2 50.9-32.2c7.4-4.5 13.4-10.1 13.9-18.3c.4-8.2-4.4-17.3-15.5-29.7" />
             </svg>
             Linux
           </span>
 
-          <span class="platform" aria-label="Raspberry Pi" title="Raspberry Pi">
+          <span class="platform">
             <svg class="platform-ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 407 512" aria-hidden="true">
-              <path fill="currentColor" d="m372 232.5l-3.7-6.5c.1-46.4-21.4-65.3-46.5-79.7c7.6-2 15.4-3.6 17.6-13.2c13.1-3.3 15.8-9.4 17.1-15.8c3.4-2.3 14.8-8.7 13.6-19.7c6.4-4.4 10-10.1 8.1-18.1c6.9-7.5 8.7-13.7 5.8-19.4c8.3-10.3 4.6-15.6 1.1-20.9c6.2-11.2.7-23.2-16.6-21.2c-6.9-10.1-21.9-7.8-24.2-7.8c-2.6-3.2-6-6-16.5-4.7c-6.8-6.1-14.4-5-22.3-2.1c-9.3-7.3-15.5-1.4-22.6.8C271.6.6 269 5.5 263.5 7.6c-12.3-2.6-16.1 3-22 8.9l-6.9-.1c-18.6 10.8-27.8 32.8-31.1 44.1c-3.3-11.3-12.5-33.3-31.1-44.1l-6.9.1c-5.9-5.9-9.7-11.5-22-8.9c-5.6-2-8.1-7-19.4-3.4c-4.6-1.4-8.9-4.4-13.9-4.3c-2.6.1-5.5 1-8.7 3.5c-7.9-3-15.5-4-22.3 2.1c-10.5-1.3-14 1.4-16.5 4.7c-2.3 0-17.3-2.3-24.2 7.8C21.2 16 15.8 28 22 39.2c-3.5 5.4-7.2 10.7 1.1 20.9c-2.9 5.7-1.1 11.9 5.8 19.4c-1.8 8 1.8 13.7 8.1 18.1c-1.2 11 10.2 17.4 13.6 19.7c1.3 6.4 4 12.4 17.1 15.8c2.2 9.5 10 11.2 17.6 13.2c-25.1 14.4-46.6 33.3-46.5 79.7l-3.7 6.5c-28.8 17.2-54.7 72.7-14.2 117.7c2.6 14.1 7.1 24.2 11 35.4c5.9 45.2 44.5 66.3 54.6 68.8c14.9 11.2 30.8 21.8 52.2 29.2C159 504.2 181 512 203 512h1c22.1 0 44-7.8 64.2-28.4c21.5-7.4 37.3-18 52.2-29.2c10.2-2.5 48.7-23.6 54.6-68.8c3.9-11.2 8.4-21.3 11-35.4c40.6-45.1 14.7-100.5-14-117.7"/>
+              <path fill="currentColor" d="m372 232.5l-3.7-6.5c.1-46.4-21.4-65.3-46.5-79.7c7.6-2 15.4-3.6 17.6-13.2c13.1-3.3 15.8-9.4 17.1-15.8c3.4-2.3 14.8-8.7 13.6-19.7c6.4-4.4 10-10.1 8.1-18.1c6.9-7.5 8.7-13.7 5.8-19.4c8.3-10.3 4.6-15.6 1.1-20.9c6.2-11.2.7-23.2-16.6-21.2c-6.9-10.1-21.9-7.8-24.2-7.8c-2.6-3.2-6-6-16.5-4.7c-6.8-6.1-14.4-5-22.3-2.1c-9.3-7.3-15.5-1.4-22.6.8C271.6.6 269 5.5 263.5 7.6c-12.3-2.6-16.1 3-22 8.9l-6.9-.1c-18.6 10.8-27.8 32.8-31.1 44.1c-3.3-11.3-12.5-33.3-31.1-44.1l-6.9.1c-5.9-5.9-9.7-11.5-22-8.9c-5.6-2-8.1-7-19.4-3.4c-4.6-1.4-8.9-4.4-13.9-4.3c-2.6.1-5.5 1-8.7 3.5c-7.9-3-15.5-4-22.3 2.1c-10.5-1.3-14 1.4-16.5 4.7c-2.3 0-17.3-2.3-24.2 7.8C21.2 16 15.8 28 22 39.2c-3.5 5.4-7.2 10.7 1.1 20.9c-2.9 5.7-1.1 11.9 5.8 19.4c-1.8 8 1.8 13.7 8.1 18.1c-1.2 11 10.2 17.4 13.6 19.7c1.3 6.4 4 12.4 17.1 15.8c2.2 9.5 10 11.2 17.6 13.2c-25.1 14.4-46.6 33.3-46.5 79.7l-3.7 6.5c-28.8 17.2-54.7 72.7-14.2 117.7c2.6 14.1 7.1 24.2 11 35.4c5.9 45.2 44.5 66.3 54.6 68.8c14.9 11.2 30.8 21.8 52.2 29.2C159 504.2 181 512 203 512h1c22.1 0 44-7.8 64.2-28.4c21.5-7.4 37.3-18 52.2-29.2c10.2-2.5 48.7-23.6 54.6-68.8c3.9-11.2 8.4-21.3 11-35.4c40.6-45.1 14.7-100.5-14-117.7" />
             </svg>
             Raspberry Pi
           </span>
         </div>
 
         <p class="meta">
-          An <i>all-in-one</i> executable. No database. No plugins. <span aria-hidden="true">·</span>
+          One executable. No database. No plugins. <span aria-hidden="true">·</span>
           <code>thypress serve</code> <span aria-hidden="true">·</span>
           <code>thypress build</code>
         </p>
       </div>
 
-      <div class="card" aria-label="Install and run">
+      <div class="card">
         <div class="tabs" aria-label="Ways to use THYPRESS">
-          <!-- radios first (CSS-only panel switching) -->
           <input id="t-drag" name="tab" type="radio" checked />
           <input id="t-cli" name="tab" type="radio" />
           <input id="t-dev" name="tab" type="radio" />
 
-          <div class="tablist" aria-label="Usage presets">
-            <label class="tab" for="t-drag">Drag &amp; Drop</label>
-            <label class="tab" for="t-cli">CLI</label>
-            <label class="tab" for="t-dev">Dev / Source</label>
+          <div class="tablist" role="tablist" aria-label="Usage presets">
+            <label class="tab" id="tab-drag" for="t-drag" role="tab" aria-controls="p-drag" aria-selected="true" tabindex="0">Drag &amp; Drop</label>
+            <label class="tab" id="tab-cli"  for="t-cli"  role="tab" aria-controls="p-cli"  aria-selected="false" tabindex="-1">CLI</label>
+            <label class="tab" id="tab-dev"  for="t-dev"  role="tab" aria-controls="p-dev"  aria-selected="false" tabindex="-1">Dev / Source</label>
           </div>
 
-          <section id="p-drag" class="panel" aria-label="Drag and drop workflow">
+          <section id="p-drag" class="panel" role="tabpanel" aria-labelledby="tab-drag">
             <h2>Non-technical: just ship.</h2>
             <ol class="steps">
               <li>Download the THYPRESS binary for your OS.</li>
-              <li>Drag a folder of <code>.txt</code>/<code>.md</code> notes onto it.</li>
+              <li>Drag a folder of <code>.txt</code> or <code>.md</code> notes onto it.</li>
               <li>Open the printed URL. You’re live.</li>
             </ol>
-            <div class="code" aria-label="Example output">
-THYPRESS  —  serving
+            <pre class="code" aria-label="Example output"><code>THYPRESS  —  serving
 → http://localhost:3009
 → watching ./posts
-→ caching optimized images in ./.cache
-            </div>
+→ caching optimized images in ./.cache</code></pre>
           </section>
 
-          <section id="p-cli" class="panel" aria-label="CLI workflow">
+          <section id="p-cli" class="panel" role="tabpanel" aria-labelledby="tab-cli">
             <h2>Intermediate: clean CLI.</h2>
             <ol class="steps">
               <li>Drop <code>posts/</code> + <code>assets/</code> into a folder.</li>
               <li>Run the server (prod-capable, cached).</li>
               <li>Or build a static artifact for any CDN.</li>
             </ol>
-            <div class="code" aria-label="CLI commands">
-# serve (production-capable)
+            <pre class="code" aria-label="CLI commands"><code># serve (production-capable)
 thypress serve
 
 # build static output to ./build/
 thypress build
 
 # preview the build artifact
-thypress build --serve
-            </div>
+thypress build --serve</code></pre>
           </section>
 
-          <section id="p-dev" class="panel" aria-label="Source workflow">
+          <section id="p-dev" class="panel" role="tabpanel" aria-labelledby="tab-dev">
             <h2>Most technical: hack on it.</h2>
             <ol class="steps">
               <li>Clone the repo, install deps with Bun.</li>
               <li>Run the CLI directly.</li>
               <li>Ship a single binary when ready.</li>
             </ol>
-            <div class="code" aria-label="Developer commands">
-# clone + install
+            <pre class="code" aria-label="Developer commands"><code># clone + install
 bun install
 
 # run from source
 bun src/cli.js serve
 
 # build the binary (example)
-bun build src/cli.js --compile --outfile thypress
-            </div>
+bun build src/cli.js --compile --outfile thypress</code></pre>
           </section>
         </div>
       </div>
     </section>
 
     <section class="strip" aria-label="Key capabilities">
+      <h2 class="section-title">Docs &amp; static sites, by default.</h2>
+      <p class="copy">A zero-config docs and static site generator with SEO-ready output, fast caching, and a file-system-first workflow.</p>
+
       <div class="strip-grid">
         <div class="pill">
           <b>SEO-ready</b>
@@ -885,18 +257,18 @@ bun build src/cli.js --compile --outfile thypress
       </div>
     </section>
 
-    <section id="manifesto" class="grid2" aria-label="Manifesto">
+    <section id="manifesto" class="grid2">
       <div class="card">
         <h2 class="section-title">Publishing should not be a CMS.</h2>
         <p class="copy">
           The modern “publish a site” stack is a tax: dashboards, plugins, databases, and endless configuration.
-          THYPRESS is the opposite: a tool that turns writing into a site without turning you into a site manager.
+          THYPRESS is a zero-config docs and static site generator that turns Markdown into a site without turning you into a site manager.
         </p>
 
         <ul class="rules" aria-label="Principles">
           <li class="rule">
             <span class="k">No plugin economy</span>
-            <p class="v">Your site shouldn’t depend on dozens of third-party extensions to be safe and complete.</p>
+            <p class="v">Your docs or site shouldn’t depend on dozens of third-party extensions to be safe and complete.</p>
           </li>
           <li class="rule">
             <span class="k">One artifact</span>
@@ -909,78 +281,69 @@ bun build src/cli.js --compile --outfile thypress
         </ul>
       </div>
 
-      <div class="card involve" id="download" aria-label="Get involved">
+      <div class="card involve" id="download">
         <h2 class="section-title">Built for people who just want to write.</h2>
         <p class="copy">
-          THYPRESS is designed to be maintained for decades: conservative defaults, minimal surface area, monthly releases.
+          Designed to be maintained for decades: conservative defaults, minimal surface area, predictable releases.
           If you care about durable software—and clean publishing—help shape it.
         </p>
 
         <div class="links" id="github" aria-label="Project links">
-          <a target="_blank" rel="noopener noreferrer" class="link" href="https://github.com/thypress/binder" aria-label="GitHub repository">Repository</a>
-          <a target="_blank" rel="noopener noreferrer" class="link" href="https://github.com/thypress/binder/issues" aria-label="Issues">Issues</a>
-          <a target="_blank" rel="noopener noreferrer" class="link" href="https://github.com/thypress/binder/pulls" aria-label="Pull requests">Pull requests</a>
-          <a target="_blank" rel="noopener noreferrer" class="link" href="https://github.com/thypress/binder/releases" aria-label="Releases">Releases</a>
+          <a target="_blank" rel="noopener noreferrer" class="link" href="https://github.com/thypress/binder">Repository</a>
+          <a target="_blank" rel="noopener noreferrer" class="link" href="https://github.com/thypress/binder/issues">Issues</a>
+          <a target="_blank" rel="noopener noreferrer" class="link" href="https://github.com/thypress/binder/pulls">Pull requests</a>
+          <a target="_blank" rel="noopener noreferrer" class="link" href="https://github.com/thypress/binder/releases">Releases</a>
         </div>
 
         <p class="small">
           Tip: keep your content in <code>posts/</code>, your theme in <code>assets/</code>, and ship.
-          Your host can be a VPS, S3, Netlify, Pages, or anything that serves files.
+          Deploy to a VPS, S3, Netlify, Pages, or anything that serves static files.
         </p>
       </div>
     </section>
 
-    <footer aria-label="Footer">
+    <footer>
       <div>© <span id="y">2026</span> THYPRESS™ by <a href="https://x.com/phteocos">teo</a> (Ask me anything!)</div>
-      <!--<div>
-        <a href="#" aria-label="Replace with your policy link">No tracking</a>
-        <span aria-hidden="true">·</span>
-        <a href="#" aria-label="Replace with your docs link">Docs</a>
-      </div>-->
     </footer>
   </main>
 
   <script>
-    // JS enhancements only:
-    // - Persisted theme toggle + accurate aria-pressed/title
-    // - Copyright year correction
+    // Enhancements:
+    // - Theme persistence + accurate aria/title
+    // - Year correction
+    // - Tab ARIA sync + keyboard nav (optional, no visual impact)
 
     const THEME_KEY = "thypress-theme";
     const root = document.documentElement;
     const toggle = document.getElementById("themeToggle");
+    const y = document.getElementById("y");
+    if (y) y.textContent = String(new Date().getFullYear());
 
-    function systemPrefersDark() {
-      return !!(window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches);
-    }
+    const prefersDark = () => !!(window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches);
 
-    function getStoredTheme() {
+    const storedTheme = () => {
       try { return localStorage.getItem(THEME_KEY); } catch { return null; }
-    }
+    };
 
-    function effectiveTheme() {
+    const effectiveTheme = () => {
       const t = root.getAttribute("data-theme");
       if (t === "light" || t === "dark") return t;
-      return systemPrefersDark() ? "dark" : "light";
-    }
+      return prefersDark() ? "dark" : "light";
+    };
 
-    function updateToggle() {
+    const updateToggle = () => {
       if (!toggle) return;
       const t = effectiveTheme();
       toggle.setAttribute("aria-pressed", t === "dark" ? "true" : "false");
       toggle.setAttribute("title", t === "dark" ? "Switch to light" : "Switch to dark");
-    }
+    };
 
-    function applyTheme(t) {
+    const applyTheme = (t) => {
       if (t === "light" || t === "dark") root.setAttribute("data-theme", t);
       else root.removeAttribute("data-theme");
       updateToggle();
-    }
+    };
 
-    // Year correction (safe even if JS blocked partially)
-    const y = document.getElementById("y");
-    if (y) y.textContent = String(new Date().getFullYear());
-
-    // Sync toggle state on load (theme may have been applied early in <head>)
     updateToggle();
 
     if (toggle) {
@@ -991,16 +354,65 @@ bun build src/cli.js --compile --outfile thypress
       });
     }
 
-    // If the OS theme changes, only update the toggle UI when no stored override exists
     if (window.matchMedia) {
       const mq = window.matchMedia("(prefers-color-scheme: dark)");
       const onChange = () => {
-        const s = getStoredTheme();
+        const s = storedTheme();
         if (s !== "light" && s !== "dark") updateToggle();
       };
       if (mq.addEventListener) mq.addEventListener("change", onChange);
       else if (mq.addListener) mq.addListener(onChange);
     }
+
+    (function initTabs() {
+      const tablist = document.querySelector(".tablist[role='tablist']");
+      if (!tablist) return;
+
+      const tabs = Array.from(tablist.querySelectorAll("[role='tab']"));
+      const byFor = new Map(tabs.map(t => [t.getAttribute("for"), t]));
+
+      const setSelected = (inputId) => {
+        for (const t of tabs) {
+          const on = t.getAttribute("for") === inputId;
+          t.setAttribute("aria-selected", on ? "true" : "false");
+          t.tabIndex = on ? 0 : -1;
+        }
+      };
+
+      const selectedInput = document.querySelector(".tabs input[type='radio']:checked");
+      if (selectedInput) setSelected(selectedInput.id);
+
+      tablist.addEventListener("keydown", (e) => {
+        if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+
+        const current = document.activeElement && document.activeElement.getAttribute
+          ? document.activeElement.getAttribute("for")
+          : null;
+
+        const idx = tabs.findIndex(t => t.getAttribute("for") === current);
+        if (idx < 0) return;
+
+        e.preventDefault();
+        const nextIdx = e.key === "ArrowRight"
+          ? (idx + 1) % tabs.length
+          : (idx - 1 + tabs.length) % tabs.length;
+
+        const nextTab = tabs[nextIdx];
+        const nextFor = nextTab.getAttribute("for");
+        const nextInput = nextFor ? document.getElementById(nextFor) : null;
+        if (nextInput) {
+          nextInput.checked = true;
+          setSelected(nextFor);
+          nextTab.focus();
+        }
+      });
+
+      document.addEventListener("change", (e) => {
+        const el = e.target;
+        if (!el || el.type !== "radio" || el.name !== "tab") return;
+        setSelected(el.id);
+      });
+    })();
   </script>
 </body>
 </html>
